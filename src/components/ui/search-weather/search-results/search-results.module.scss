@@ -1,0 +1,35 @@
+.results {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	z-index: 999;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 0.5rem;
+}
+
+.cityButton {
+	display: block;
+	width: 100%;
+	padding: 0.5rem 1rem;
+	text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	background-color: #f8f9fa;
+	transition: background-color 0.2s ease;
+	color: black;
+
+	&:hover {
+		background-color: #e2e6ea;
+		cursor: pointer
+	}
+}

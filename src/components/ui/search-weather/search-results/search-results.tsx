@@ -1,27 +1,42 @@
 'use client';
 
-import style from './search-results.module.scss';
 import { useWeatherStore } from '@/zustand/store/store';
+import { v4 as uuidv4 } from 'uuid';
+import { useRef } from 'react';
+import styles from './search-results.module.scss';
 
-const SearchResults = () => {
-  const weather = useWeatherStore((s) => s.currentWeather);
+interface SearchResultsProps {
+  clearCities: () => void;
+}
+
+const SearchResults = ({ clearCities }: SearchResultsProps) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const cities = useWeatherStore((s) => s.cities);
   const isLoading = useWeatherStore((s) => s.isLoading);
   const error = useWeatherStore((s) => s.error);
+  const selectCity = useWeatherStore((s) => s.selectCity);
+  const setCities = useWeatherStore.setState;
 
   if (isLoading) return <p>Загрузка...</p>;
   if (error) return <p>{error}</p>;
-  if (!weather) return null;
+  if (!cities.length) return <p>Ничего не найдено</p>;
 
   return (
-    <div className={style.container}>
-      <h2>{weather.name}</h2>
-      <p>Температура: {weather.main.temp}°C</p>
-      <p>Ощущается как: {weather.main.feels_like}°C</p>
-      <p>{weather.weather[0].description}</p>
-      <img
-        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-        alt="icon"
-      />
+    <div className={styles.results} ref={ref}>
+      {cities.map((city) => (
+        <button
+          key={uuidv4()}
+          onClick={() => {
+            selectCity(city);
+            setCities({ cities: [] });
+            clearCities();
+          }}
+          className={styles.cityButton}
+        >
+          {city.name}, {city.state ? `${city.state}, ` : ''}
+          {city.country}
+        </button>
+      ))}
     </div>
   );
 };

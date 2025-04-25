@@ -1,15 +1,19 @@
 'use client';
 
 import style from './input.module.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 import { useWeatherStore } from '@/zustand/store/store';
 
-const Input = () => {
-  const [inputValue, setInputValue] = useState('');
-  const debouncedValue = useDebounce(inputValue, 500);
+interface InputProps {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const fetchCityWeather = useWeatherStore((s) => s.fetchCityWeather);
+const Input = ({ inputValue, setInputValue }: InputProps) => {
+  const debouncedValue = useDebounce(inputValue, 500);
+  const searchCities = useWeatherStore((s) => s.searchCities);
+  const setCities = useWeatherStore.setState;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -19,9 +23,15 @@ const Input = () => {
 
   useEffect(() => {
     if (debouncedValue.trim()) {
-      fetchCityWeather(debouncedValue.trim());
+      searchCities(debouncedValue.trim());
     }
   }, [debouncedValue]);
+
+  useEffect(() => {
+    if (!inputValue) {
+      setCities({ cities: [] });
+    }
+  }, [inputValue]);
 
   return (
     <div className={style.container}>
