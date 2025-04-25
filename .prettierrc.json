@@ -10,7 +10,6 @@
   "arrowParens": "always",
   "proseWrap": "always",
   "jsxBracketSameLine": false,
-  "plugins": ["prettier-plugin-tailwindcss"],
   "overrides": [
     {
       "files": ["*.tsx", "*.jsx"],
