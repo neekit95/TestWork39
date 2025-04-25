@@ -34,4 +34,5 @@ export const createWeatherSlice: StateCreator<WeatherSlice> = (
   selectCity: (city) => {
     set({ selectedCity: city });
   },
+  clearSelectedCity: () => set({ selectedCity: null }),
 });

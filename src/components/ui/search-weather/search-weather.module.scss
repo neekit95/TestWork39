@@ -1,8 +1,10 @@
 .container {
+	padding-top: 1rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
 	flex-direction: column;
-	background-color: red;
+	gap: 1rem;
+
 }

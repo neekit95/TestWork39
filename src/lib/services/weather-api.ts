@@ -26,3 +26,28 @@ export const fetchCitiesByName = async (
 
   return response.data;
 };
+
+export interface CurrentWeather {
+  weather: { description: string; icon: string }[];
+  main: { temp: number; feels_like: number };
+  name: string;
+}
+
+export const fetchCurrentWeather = async (
+  lat: number,
+  lon: number
+): Promise<CurrentWeather> => {
+  const response = await axios.get<CurrentWeather>(
+    'https://api.openweathermap.org/data/2.5/weather',
+    {
+      params: {
+        lat,
+        lon,
+        appid: API_KEY,
+        units: 'metric',
+        lang: 'ru',
+      },
+    }
+  );
+  return response.data;
+};

@@ -1,29 +1,34 @@
-.results {
+.container {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	width: 100%;
+	padding: 1px;
 }
 
-.dropdown {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	width: 100%;
-	background-color: #fff;
-	border: 1px solid #ccc;
+.results {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border: 1px solid rgba(128, 128, 128, 0.56);
+	border-radius: 3px;
+	overflow: hidden;
 	z-index: 999;
-	border-radius: 8px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	padding: 0.5rem;
 }
+
+.paragraph {
+	padding:  1rem 0;
+}
+
 
 .cityButton {
 	display: block;
 	width: 100%;
 	padding: 0.5rem 1rem;
 	text-align: left;
-	border: 1px solid #ccc;
-	border-radius: 8px;
+	//border: 1px solid #ccc;
+	//border-radius: 8px;
+	border: 0;
 	background-color: #f8f9fa;
 	transition: background-color 0.2s ease;
 	color: black;
