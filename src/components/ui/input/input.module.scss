@@ -1,0 +1,16 @@
+.container, .input {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.input {
+	border: 1px solid rgba(128, 128, 128, 0.43);
+	width: 100%;
+	padding: 0.4rem 1rem;
+	outline: none;
+	color: black;
+}
