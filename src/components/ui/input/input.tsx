@@ -25,13 +25,13 @@ const Input = ({ inputValue, setInputValue }: InputProps) => {
     if (debouncedValue.trim()) {
       searchCities(debouncedValue.trim());
     }
-  }, [debouncedValue]);
+  }, [debouncedValue, searchCities]);
 
   useEffect(() => {
     if (!inputValue) {
       setCities({ cities: [] });
     }
-  }, [inputValue]);
+  }, [inputValue, setCities]);
 
   return (
     <div className={style.container}>

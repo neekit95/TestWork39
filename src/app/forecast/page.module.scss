@@ -1,36 +1,36 @@
 .container {
-	padding: 1rem 0;
-	width: 100%;
+  width: 100%;
+  padding: 1rem 0;
 
-	h1 {
-		padding-bottom: 2rem;
-	}
+  h1 {
+    padding-bottom: 2rem;
+  }
 }
 
 .day {
-  margin-bottom: 2rem;
   padding: 1rem;
+  background-color: #f9fafb;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
-  background-color: #f9fafb;
+  margin-bottom: 2rem;
 }
 
 .day h2 {
-  margin-bottom: 1rem;
   font-size: 1.5rem;
   color: #0f172a;
+  margin-bottom: 1rem;
 }
 
 .hourly {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 0.75rem 1rem;
-  margin-bottom: 0.75rem;
+  background-color: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 4%);
+  margin-bottom: 0.75rem;
 }
 
 .hourly p {

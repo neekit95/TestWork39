@@ -34,6 +34,7 @@ export const createWeatherSlice: StateCreator<WeatherSlice> = (
       set({ cities: results, isLoading: false });
     } catch (error) {
       set({ error: 'Ошибка при поиске', isLoading: false });
+      console.error(error);
     }
   },
 

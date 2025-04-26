@@ -1,6 +1,7 @@
 'use client';
 
 import style from './selected-weather.module.scss';
+import Image from 'next/image';
 import { useWeatherStore } from '@/zustand/store/store';
 import { GeoCity } from '@/lib/services/weather-api';
 import { useRouter } from 'next/navigation';
@@ -46,7 +47,13 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
   };
 
   if (!weather) {
-    return <p>Загрузка погоды для {city.name}...</p>;
+    return (
+      <p>
+        Загрузка погоды для
+        {city.name}
+        ...
+      </p>
+    );
   }
 
   return (
@@ -54,20 +61,27 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
       <div className={style.left}>
         <h3 className={style.h3}>
           {city.name}
-          {city.state ? `, ${city.state}` : ''}, {city.country}
+          {city.state ? `, ${city.state}` : ''},{city.country}
         </h3>
         <p>
           🌡 Температура: {weather.main.temp}°C (ощущается как{' '}
-          {weather.main.feels_like}°C)
+          {weather.main.feels_like}
+          °C)
         </p>
-        <p>☁️ {weather.weather[0].description}</p>
+        <p>
+          ☁️
+          {weather.weather[0].description}
+        </p>
       </div>
 
       <div className={style.right}>
-        <img
+        <Image
           className={style.image}
           src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
           alt="Погода"
+          width={100}
+          height={100}
+          unoptimized
         />
 
         <button

@@ -1,47 +1,43 @@
 .container {
-	display: flex;
-	justify-content: space-between;
-	align-content: center;
-	width: 100%;
-	border: 1px solid rgba(128, 128, 128, 0.56);
-	border-radius: 5px;
-	padding: 1rem;
-	//background-color: rgba(128, 128, 128, 0.13);
-	gap: 1rem;
-	position: relative;
+  position: relative;
+  display: flex;
+  place-content: center space-between;
+  width: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  border: 1px solid rgb(128 128 128 / 56%);
+  border-radius: 5px;
 }
 
 .left {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	flex-direction: column;
-	gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
 .right {
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .favoriteButton {
-	top: 1rem;
-	right: 1rem;
-	cursor: pointer;
-	font-size: 0.8rem;
-	color: #888;
-	transition: color 0.3s ease;
-	//border: 1px solid grey;
-	border: none;
-	padding: 0.4rem 1rem;
-	border-radius: 5px;
-	background-color: green;
-	color: white;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 1rem;
+  background-color: #028002;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  color: #fcfcfc;
+  transition: color 0.3s ease;
+  cursor: pointer;
 
-	&.active {
-		color: white;
-		background-color: #910303;
-	}
+  &.active {
+    background-color: #910303;
+    color: #fcfcfc;
+  }
 }

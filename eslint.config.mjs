@@ -15,6 +15,7 @@ const compat = new FlatCompat({
 });
 
 export default [
+  ...compat.extends('next'),
   {
     files: ['src/**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -36,15 +37,7 @@ export default [
       prettier: eslintPluginPrettier,
     },
     rules: {
-      'prettier/prettier': [
-        'error',
-        {
-          singleQuote: true,
-          jsxSingleQuote: false,
-          bracketSameLine: false,
-          printWidth: 70,
-        },
-      ],
+      'prettier/prettier': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_' },
@@ -61,26 +54,17 @@ export default [
           prop: 'parens',
         },
       ],
-      'react/jsx-one-expression-per-line': [
-        'error',
-        { allow: 'single-child' },
-      ],
+      'react/jsx-one-expression-per-line': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
-      'tailwindcss/no-custom-classname': 'off',
-      'tailwindcss/classnames-order': 'warn',
     },
   },
   {
     files: ['*.ts', '*.tsx'],
-    rules: {
-      '@typescript-eslint/recommended': 'error',
-    },
+    extends: ['plugin:@typescript-eslint/recommended'],
   },
   {
     files: ['*.js', '*.jsx'],
-    rules: {
-      'react/recommended': 'error',
-    },
+    extends: ['plugin:react/recommended'],
   },
 ];

@@ -21,14 +21,14 @@ const FavoritesPage = () => {
   useEffect(() => {
     loadFavorites();
     loadFavoritesWeather();
-  }, []);
+  }, [loadFavorites, loadFavoritesWeather, favoritesLoading]);
 
   if (favoritesLoading) {
-    return <p>Загрузка избранных городов...</p>;
+    return <div className="loading">Загрузка...</div>;
   }
 
   if (!favorites.length && !favoritesLoading) {
-    return <p>Нет избранных городов.</p>;
+    return <div className="loading">Нет избранных городов.</div>;
   }
 
   return (

@@ -3,7 +3,6 @@
   --foreground: #171717;
 }
 
-
 html,
 body {
   display: flex;
@@ -37,4 +36,13 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 3rem);
 }

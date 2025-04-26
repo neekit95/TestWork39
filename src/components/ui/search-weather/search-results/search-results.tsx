@@ -7,14 +7,13 @@ import styles from './search-results.module.scss';
 import { GeoCity } from '@/lib/services/weather-api';
 
 interface SearchResultsProps {
-  clearCities: () => void;
+  clearCities?: () => void;
   inputValue: string;
   isDebouncing: boolean;
   onCitySelect: (city: GeoCity) => void;
 }
 
 const SearchResults = ({
-  clearCities,
   inputValue,
   isDebouncing,
   onCitySelect,
@@ -42,7 +41,7 @@ const SearchResults = ({
             onClick={() => onCitySelect(city)}
             className={styles.cityButton}
           >
-            {city.name}, {city.state ? `${city.state}, ` : ''}
+            {city.name},{city.state ? `${city.state}, ` : ''}
             {city.country}
           </button>
         ))}

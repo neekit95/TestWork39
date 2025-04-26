@@ -2,7 +2,6 @@ import { StateCreator } from 'zustand';
 import {
   fetchWeeklyForecast,
   ForecastResponse,
-  GeoCity,
 } from '@/lib/services/weather-api';
 
 export interface ForecastSlice {

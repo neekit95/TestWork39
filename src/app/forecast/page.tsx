@@ -7,6 +7,7 @@ import {
 } from '@/lib/services/weather-api';
 import styles from './page.module.scss';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const ForecastPage = () => {
   const searchParams = useSearchParams();
@@ -61,8 +62,8 @@ const ForecastPage = () => {
     router.push('/');
   };
 
-  if (loading) return <div>Загрузка прогноза...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div className="loading">Загрузка...</div>;
+  if (error) return <div className="loading">{error}</div>;
 
   const groupByDayOfWeek = (list: ForecastResponse['list']) => {
     const grouped: Record<string, typeof list> = {};
@@ -102,14 +103,21 @@ const ForecastPage = () => {
                       )}
                     </p>
                     <p>
-                      🌡 {entry.main.temp}°C (Мин:{' '}
-                      {entry.main.temp_min}°C / Макс:{' '}
-                      {entry.main.temp_max}°C)
+                      🌡
+                      {entry.main.temp}
+                      °C (Мин: {entry.main.temp_min}
+                      °C / Макс: {entry.main.temp_max}
+                      °C)
                     </p>
-                    <p>☁️ {entry.weather[0].description}</p>
-                    <img
+                    <p>
+                      ☁️
+                      {entry.weather[0].description}
+                    </p>
+                    <Image
                       src={`https://openweathermap.org/img/wn/${entry.weather[0].icon}@2x.png`}
                       alt="Погода"
+                      width={100}
+                      height={100}
                     />
                   </div>
                 ))}
