@@ -1,14 +1,6 @@
 import axios from 'axios';
 
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
-//
-// export interface GeoCity {
-//   name: string;
-//   country: string;
-//   lat: number;
-//   lon: number;
-//   state?: string;
-// }
 
 export interface GeoCity {
   name: string;
