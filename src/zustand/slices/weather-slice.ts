@@ -14,6 +14,7 @@ export interface WeatherSlice {
   selectCity: (city: GeoCity) => void;
   addToFavorites: (city: GeoCity) => void;
   removeFromFavorites: (city: GeoCity) => void;
+  loadFavorites: () => void;
 }
 
 export const createWeatherSlice: StateCreator<WeatherSlice> = (
@@ -42,17 +43,45 @@ export const createWeatherSlice: StateCreator<WeatherSlice> = (
   addToFavorites: (city) => {
     set((state) => {
       if (!state.favorites.some((fav) => fav.name === city.name)) {
-        return { favorites: [...state.favorites, city] };
+        const newFavorites = [...state.favorites, city];
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(
+            'favorites',
+            JSON.stringify(newFavorites)
+          );
+        }
+        return { favorites: newFavorites };
       }
       return state;
     });
   },
 
   removeFromFavorites: (city) => {
-    set((state) => ({
-      favorites: state.favorites.filter(
+    set((state) => {
+      const newFavorites = state.favorites.filter(
         (fav) => fav.name !== city.name
-      ),
-    }));
+      );
+      if (typeof window !== 'undefined') {
+        localStorage.setItem(
+          'favorites',
+          JSON.stringify(newFavorites)
+        );
+      }
+      return { favorites: newFavorites };
+    });
+  },
+
+  loadFavorites: () => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('favorites');
+      if (stored) {
+        try {
+          const favorites = JSON.parse(stored);
+          set({ favorites });
+        } catch {
+          set({ favorites: [] });
+        }
+      }
+    }
   },
 });
