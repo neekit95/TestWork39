@@ -7,15 +7,23 @@ import {
   fetchCurrentWeather,
   CurrentWeather,
 } from '@/lib/services/weather-api';
+import { GeoCity } from '@/lib/services/weather-api';
 
-const SelectedWeather = () => {
-  const city = useWeatherStore((s) => s.selectedCity);
+interface SelectedWeatherProps {
+  city?: GeoCity; // передаем либо пропс city, либо берем из стора
+}
+
+const SelectedWeather = ({
+  city: cityProp,
+}: SelectedWeatherProps) => {
+  const selectedCity = useWeatherStore((s) => s.selectedCity);
   const favorites = useWeatherStore((s) => s.favorites);
   const addToFavorites = useWeatherStore((s) => s.addToFavorites);
   const removeFromFavorites = useWeatherStore(
     (s) => s.removeFromFavorites
   );
 
+  const city = cityProp || selectedCity; // используем либо переданный пропс, либо из стора
   const [weather, setWeather] = useState<CurrentWeather | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,6 +31,15 @@ const SelectedWeather = () => {
   const isFavorite = city
     ? favorites.some((fav) => fav.name === city.name)
     : false;
+
+  const toggleFavorite = () => {
+    if (!city) return;
+    if (isFavorite) {
+      removeFromFavorites(city);
+    } else {
+      addToFavorites(city);
+    }
+  };
 
   useEffect(() => {
     if (!city) return;
@@ -42,15 +59,6 @@ const SelectedWeather = () => {
 
     getWeather();
   }, [city]);
-
-  const toggleFavorite = () => {
-    if (!city) return;
-    if (isFavorite) {
-      removeFromFavorites(city);
-    } else {
-      addToFavorites(city);
-    }
-  };
 
   if (!city) return null;
   if (loading) return <p>Загрузка погоды...</p>;
