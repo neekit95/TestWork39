@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useWeatherStore } from '@/zustand/store/store';
 import SelectedWeather from '@/components/ui/search-weather/selected-weather/selected-weather';
 import styles from './page.module.scss';
+import { GeoCity } from '@/lib/services/weather-api';
 
 const FavoritesPage = () => {
   const favorites = useWeatherStore((state) => state.favorites);
@@ -32,7 +33,7 @@ const FavoritesPage = () => {
 
   return (
     <div className={styles.container}>
-      {favorites.map((city) => (
+      {favorites.map((city: GeoCity) => (
         <SelectedWeather
           key={`${city.name}-${city.lat}-${city.lon}`}
           city={city}

@@ -36,7 +36,7 @@ const SearchResults = ({
     <div className={styles.container} ref={ref}>
       <p className={styles.paragraph}>Результаты поиска:</p>
       <div className={styles.results}>
-        {cities.map((city) => (
+        {cities.map((city: GeoCity) => (
           <button
             key={uuidv4()}
             onClick={() => onCitySelect(city)}

@@ -3,6 +3,8 @@
 import style from './selected-weather.module.scss';
 import { useWeatherStore } from '@/zustand/store/store';
 import { GeoCity } from '@/lib/services/weather-api';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface SelectedWeatherProps {
   city: GeoCity;
@@ -13,18 +15,25 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
   const favorites = useWeatherStore((s) => s.favorites);
   const selectedCity = useWeatherStore((s) => s.selectedCity);
   const addToFavorites = useWeatherStore((s) => s.addToFavorites);
+  const selectedCityWeather = useWeatherStore(
+    (s) => s.selectedCityWeather
+  );
+
   const removeFromFavorites = useWeatherStore(
     (s) => s.removeFromFavorites
   );
+  const router = useRouter();
 
   const weather =
     city === selectedCity
-      ? favoritesWeather[`${city.name}-${city.lat}-${city.lon}`]
+      ? selectedCityWeather
       : favoritesWeather[`${city.name}-${city.lat}-${city.lon}`];
+  const isFavorite = favorites.some(
+    (fav: GeoCity) => fav.name === city.name
+  );
 
-  const isFavorite = favorites.some((fav) => fav.name === city.name);
-
-  const toggleFavorite = () => {
+  const toggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (isFavorite) {
       removeFromFavorites(city);
     } else {
@@ -32,12 +41,16 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
     }
   };
 
+  const handleNavigate = () => {
+    router.push(`/forecast?lat=${city.lat}&lon=${city.lon}`);
+  };
+
   if (!weather) {
     return <p>Загрузка погоды для {city.name}...</p>;
   }
 
   return (
-    <div className={style.container}>
+    <div className={style.container} onClick={handleNavigate}>
       <div className={style.left}>
         <h3 className={style.h3}>
           {city.name}
