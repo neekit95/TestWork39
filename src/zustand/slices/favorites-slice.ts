@@ -95,7 +95,6 @@ export const createFavoritesSlice: StateCreator<FavoritesSlice> = (
           'Ошибка загрузки погоды избранных городов',
           error
         );
-        set({ favoritesWeather: {}, favoritesLoading: false });
       }
     }
   },

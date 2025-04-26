@@ -9,13 +9,20 @@ import {
   formatTime,
 } from '@/lib/utils/forecast-utils';
 
+interface ForecastCity {
+  name: string;
+  country: string;
+  state?: string;
+}
+
 const ForecastPage = () => {
   const router = useRouter();
-  const { forecast, loading, error, firstLoadComplete, resetCity } =
+  const { forecast, loading, error, firstLoadComplete } =
     useForecast();
+  const city = forecast?.city as ForecastCity;
 
   const handleSelectCity = () => {
-    resetCity();
+    // resetCity();
     router.push('/');
   };
 
@@ -51,7 +58,10 @@ const ForecastPage = () => {
   return (
     <div className={styles.container}>
       <div>
-        <h1>{forecast.city.name}</h1>
+        <h1>
+          {city.name}
+          {city.state ? `, ${city.state}` : ''}, {city.country}
+        </h1>
         {Object.entries(groupByDayOfWeek(forecast.list)).map(
           ([dayName, entries]) => (
             <div key={dayName} className={styles.day}>

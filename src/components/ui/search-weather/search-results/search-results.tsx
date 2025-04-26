@@ -41,8 +41,8 @@ const SearchResults = ({
             onClick={() => onCitySelect(city)}
             className={styles.cityButton}
           >
-            {city.name},{city.state ? `${city.state}, ` : ''}
-            {city.country}
+            {city.local_names?.ru || city.name}
+            {city.state ? `, ${city.state}` : ''}, {city.country}
           </button>
         ))}
       </div>

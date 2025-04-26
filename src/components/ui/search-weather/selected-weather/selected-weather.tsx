@@ -19,7 +19,6 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
   const selectedCityWeather = useWeatherStore(
     (s) => s.selectedCityWeather
   );
-
   const removeFromFavorites = useWeatherStore(
     (s) => s.removeFromFavorites
   );
@@ -29,6 +28,7 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
     city === selectedCity
       ? selectedCityWeather
       : favoritesWeather[`${city.name}-${city.lat}-${city.lon}`];
+
   const isFavorite = favorites.some(
     (fav: GeoCity) => fav.name === city.name
   );
@@ -43,14 +43,13 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
   };
 
   const handleNavigate = () => {
-    router.push(`/forecast?lat=${city.lat}&lon=${city.lon}`);
+    router.push(`/forecast?city=${city.name}`);
   };
 
   if (!weather) {
     return (
       <p>
-        Загрузка погоды для {city.name}
-        ...
+        Загрузка погоды для {city.local_names?.ru || city.name}...
       </p>
     );
   }
@@ -59,13 +58,12 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
     <div className={style.container} onClick={handleNavigate}>
       <div className={style.left}>
         <h3 className={style.h3}>
-          {city.name}
-          {city.state ? `, ${city.state}` : ''},{city.country}
+          {city.local_names?.ru || city.name}
+          {city.state ? `, ${city.state}` : ''}, {city.country}
         </h3>
         <p>
           🌡 Температура: {weather.main.temp}°C (ощущается как{' '}
-          {weather.main.feels_like}
-          °C)
+          {weather.main.feels_like}°C)
         </p>
         <p>{weather.weather[0].description}</p>
       </div>
