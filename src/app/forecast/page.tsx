@@ -109,10 +109,7 @@ const ForecastPage = () => {
                       °C / Макс: {entry.main.temp_max}
                       °C)
                     </p>
-                    <p>
-                      ☁️
-                      {entry.weather[0].description}
-                    </p>
+                    <p>{entry.weather[0].description}</p>
                     <Image
                       src={`https://openweathermap.org/img/wn/${entry.weather[0].icon}@2x.png`}
                       alt="Погода"

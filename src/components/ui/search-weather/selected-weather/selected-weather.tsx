@@ -49,8 +49,7 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
   if (!weather) {
     return (
       <p>
-        Загрузка погоды для
-        {city.name}
+        Загрузка погоды для {city.name}
         ...
       </p>
     );
@@ -68,10 +67,7 @@ const SelectedWeather = ({ city }: SelectedWeatherProps) => {
           {weather.main.feels_like}
           °C)
         </p>
-        <p>
-          ☁️
-          {weather.weather[0].description}
-        </p>
+        <p>{weather.weather[0].description}</p>
       </div>
 
       <div className={style.right}>

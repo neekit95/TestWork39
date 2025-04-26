@@ -21,7 +21,7 @@ const FavoritesPage = () => {
   useEffect(() => {
     loadFavorites();
     loadFavoritesWeather();
-  }, [loadFavorites, loadFavoritesWeather, favoritesLoading]);
+  }, [loadFavoritesWeather, loadFavorites]);
 
   if (favoritesLoading) {
     return <div className="loading">Загрузка...</div>;
