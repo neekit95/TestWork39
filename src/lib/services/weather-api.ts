@@ -1,6 +1,14 @@
 import axios from 'axios';
 
 const API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+//
+// export interface GeoCity {
+//   name: string;
+//   country: string;
+//   lat: number;
+//   lon: number;
+//   state?: string;
+// }
 
 export interface GeoCity {
   name: string;
@@ -8,6 +16,9 @@ export interface GeoCity {
   lat: number;
   lon: number;
   state?: string;
+  local_names?: {
+    ru?: string;
+  };
 }
 
 export const fetchCitiesByName = async (
@@ -83,6 +94,23 @@ export const fetchWeeklyForecast = async (
       params: {
         lat,
         lon,
+        units: 'metric',
+        lang: 'ru',
+        appid: API_KEY,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const fetchWeeklyForecastByCityName = async (
+  cityName: string
+): Promise<ForecastResponse> => {
+  const response = await axios.get<ForecastResponse>(
+    'https://api.openweathermap.org/data/2.5/forecast',
+    {
+      params: {
+        q: cityName,
         units: 'metric',
         lang: 'ru',
         appid: API_KEY,
