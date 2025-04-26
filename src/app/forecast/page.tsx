@@ -40,25 +40,53 @@ const ForecastPage = () => {
   if (loading) return <div>Загрузка прогноза...</div>;
   if (error) return <div>{error}</div>;
 
+  const groupByDayOfWeek = (list: ForecastResponse['list']) => {
+    const grouped: Record<string, typeof list> = {};
+    list.forEach((item) => {
+      const day = new Date(item.dt * 1000).toLocaleDateString(
+        'ru-RU',
+        { weekday: 'long' }
+      );
+      if (!grouped[day]) grouped[day] = [];
+      grouped[day].push(item);
+    });
+    return grouped;
+  };
+
   return (
     <div className={styles.container}>
       {forecast ? (
         <div>
           <h1>Прогноз на неделю</h1>
-          {forecast.list.map((day) => (
-            <div key={day.dt} className={styles.day}>
-              <p>{new Date(day.dt * 1000).toLocaleDateString()}</p>
-              <p>
-                🌡 {day.main.temp}°C (Мин: {day.main.temp_min}°C /
-                Макс: {day.main.temp_max}°C)
-              </p>
-              <p>☁️ {day.weather[0].description}</p>
-              <img
-                src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                alt="Погода"
-              />
-            </div>
-          ))}
+          {Object.entries(groupByDayOfWeek(forecast.list)).map(
+            ([dayName, entries]) => (
+              <div key={dayName} className={styles.day}>
+                <h2>
+                  {dayName.charAt(0).toUpperCase() + dayName.slice(1)}
+                </h2>
+                {entries.map((entry) => (
+                  <div key={entry.dt} className={styles.hourly}>
+                    <p>
+                      {new Date(entry.dt * 1000).toLocaleTimeString(
+                        'ru-RU',
+                        { hour: '2-digit', minute: '2-digit' }
+                      )}
+                    </p>
+                    <p>
+                      🌡 {entry.main.temp}°C (Мин:{' '}
+                      {entry.main.temp_min}°C / Макс:{' '}
+                      {entry.main.temp_max}°C)
+                    </p>
+                    <p>☁️ {entry.weather[0].description}</p>
+                    <img
+                      src={`https://openweathermap.org/img/wn/${entry.weather[0].icon}@2x.png`}
+                      alt="Погода"
+                    />
+                  </div>
+                ))}
+              </div>
+            )
+          )}
         </div>
       ) : (
         <div>Нет данных для прогноза.</div>
