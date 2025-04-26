@@ -7,10 +7,15 @@ import {
   createFavoritesSlice,
   FavoritesSlice,
 } from '../slices/favorites-slice';
+import {
+  createForecastSlice,
+  ForecastSlice,
+} from '@/zustand/slices/forecast-slice';
 
-type StoreState = WeatherSlice & FavoritesSlice;
+type StoreState = WeatherSlice & FavoritesSlice & ForecastSlice;
 
 export const useWeatherStore = create<StoreState>()((...a) => ({
   ...createWeatherSlice(...a),
   ...createFavoritesSlice(...a),
+  ...createForecastSlice(...a),
 }));

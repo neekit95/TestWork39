@@ -23,7 +23,6 @@ export const fetchCitiesByName = async (
       },
     }
   );
-
   return response.data;
 };
 
@@ -46,6 +45,42 @@ export const fetchCurrentWeather = async (
         appid: API_KEY,
         units: 'metric',
         lang: 'ru',
+      },
+    }
+  );
+  return response.data;
+};
+
+export interface ForecastListItem {
+  dt: number;
+  main: {
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+  };
+  weather: {
+    description: string;
+    icon: string;
+  }[];
+}
+
+export interface ForecastResponse {
+  list: ForecastListItem[];
+}
+
+export const fetchWeeklyForecast = async (
+  lat: string,
+  lon: string
+): Promise<ForecastResponse> => {
+  const response = await axios.get<ForecastResponse>(
+    'https://api.openweathermap.org/data/2.5/forecast',
+    {
+      params: {
+        lat,
+        lon,
+        units: 'metric',
+        lang: 'ru',
+        appid: API_KEY,
       },
     }
   );
