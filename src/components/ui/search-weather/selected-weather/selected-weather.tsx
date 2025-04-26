@@ -10,9 +10,19 @@ import {
 
 const SelectedWeather = () => {
   const city = useWeatherStore((s) => s.selectedCity);
+  const favorites = useWeatherStore((s) => s.favorites);
+  const addToFavorites = useWeatherStore((s) => s.addToFavorites);
+  const removeFromFavorites = useWeatherStore(
+    (s) => s.removeFromFavorites
+  );
+
   const [weather, setWeather] = useState<CurrentWeather | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isFavorite = city
+    ? favorites.some((fav) => fav.name === city.name)
+    : false;
 
   useEffect(() => {
     if (!city) return;
@@ -33,6 +43,15 @@ const SelectedWeather = () => {
     getWeather();
   }, [city]);
 
+  const toggleFavorite = () => {
+    if (!city) return;
+    if (isFavorite) {
+      removeFromFavorites(city);
+    } else {
+      addToFavorites(city);
+    }
+  };
+
   if (!city) return null;
   if (loading) return <p>Загрузка погоды...</p>;
   if (error) return <p>{error}</p>;
@@ -52,11 +71,22 @@ const SelectedWeather = () => {
         <p>☁️ {weather.weather[0].description}</p>
       </div>
 
-      <img
-        className={style.image}
-        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-        alt="Погода"
-      />
+      <div className={style.right}>
+        <img
+          className={style.image}
+          src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+          alt="Погода"
+        />
+
+        <button
+          className={`${style.favoriteButton} ${isFavorite ? style.active : ''}`}
+          onClick={toggleFavorite}
+        >
+          {isFavorite
+            ? 'Убрать из избранного'
+            : 'Добавить в избранное'}
+        </button>
+      </div>
     </div>
   );
 };

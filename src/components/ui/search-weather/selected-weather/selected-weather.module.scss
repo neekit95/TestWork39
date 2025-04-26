@@ -8,6 +8,7 @@
 	padding: 1rem;
 	//background-color: rgba(128, 128, 128, 0.13);
 	gap: 1rem;
+	position: relative;
 }
 
 .left {
@@ -16,4 +17,31 @@
 	align-items: flex-start;
 	flex-direction: column;
 	gap: 1rem;
+}
+
+.right {
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	flex-direction: column;
+}
+
+.favoriteButton {
+	top: 1rem;
+	right: 1rem;
+	cursor: pointer;
+	font-size: 0.8rem;
+	color: #888;
+	transition: color 0.3s ease;
+	//border: 1px solid grey;
+	border: none;
+	padding: 0.4rem 1rem;
+	border-radius: 5px;
+	background-color: green;
+	color: white;
+
+	&.active {
+		color: white;
+		background-color: #910303;
+	}
 }
