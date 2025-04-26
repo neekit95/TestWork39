@@ -17,7 +17,7 @@ export default function Error({ error }: ErrorProps) {
 
   return (
     <div className="loading">
-      <h2>Упс! Что-то пошло не так 😢</h2>
+      <h2>Упс! Что-то пошло не так!</h2>
       <p>{error.message}</p>
       <button onClick={() => router.push('/')}>
         Вернуться на главную

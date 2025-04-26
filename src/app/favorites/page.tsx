@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useLoadFavorites } from '@/lib/hooks/use-load-favorites';
 import { useWeatherStore } from '@/zustand/store/store';
 import SelectedWeather from '@/components/ui/search-weather/selected-weather/selected-weather';
 import styles from './page.module.scss';
@@ -11,17 +11,8 @@ const FavoritesPage = () => {
   const favoritesLoading = useWeatherStore(
     (state) => state.favoritesLoading
   );
-  const loadFavorites = useWeatherStore(
-    (state) => state.loadFavorites
-  );
-  const loadFavoritesWeather = useWeatherStore(
-    (state) => state.loadFavoritesWeather
-  );
 
-  useEffect(() => {
-    loadFavorites();
-    loadFavoritesWeather();
-  }, [loadFavoritesWeather, loadFavorites]);
+  useLoadFavorites();
 
   if (favoritesLoading) {
     return <div className="loading">Загрузка...</div>;
