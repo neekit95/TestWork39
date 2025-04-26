@@ -16,6 +16,7 @@ const SearchWeather = () => {
   const [readyToSearch, setReadyToSearch] = useState(false);
   const [isDebouncing, setIsDebouncing] = useState(false);
   const selectCity = useWeatherStore((s) => s.selectCity);
+  const city = useWeatherStore((s) => s.selectedCity);
 
   const clearCities = () => {
     setCities({ cities: [] });
@@ -64,7 +65,7 @@ const SearchWeather = () => {
         />
       )}
 
-      <SelectedWeather />
+      {city && <SelectedWeather city={city} />}
     </div>
   );
 };

@@ -1,39 +1,30 @@
 'use client';
 
 import style from './selected-weather.module.scss';
-import { useEffect, useState } from 'react';
 import { useWeatherStore } from '@/zustand/store/store';
-import {
-  fetchCurrentWeather,
-  CurrentWeather,
-} from '@/lib/services/weather-api';
 import { GeoCity } from '@/lib/services/weather-api';
 
 interface SelectedWeatherProps {
-  city?: GeoCity; // передаем либо пропс city, либо берем из стора
+  city: GeoCity;
 }
 
-const SelectedWeather = ({
-  city: cityProp,
-}: SelectedWeatherProps) => {
-  const selectedCity = useWeatherStore((s) => s.selectedCity);
+const SelectedWeather = ({ city }: SelectedWeatherProps) => {
+  const favoritesWeather = useWeatherStore((s) => s.favoritesWeather);
   const favorites = useWeatherStore((s) => s.favorites);
+  const selectedCity = useWeatherStore((s) => s.selectedCity);
   const addToFavorites = useWeatherStore((s) => s.addToFavorites);
   const removeFromFavorites = useWeatherStore(
     (s) => s.removeFromFavorites
   );
 
-  const city = cityProp || selectedCity; // используем либо переданный пропс, либо из стора
-  const [weather, setWeather] = useState<CurrentWeather | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const weather =
+    city === selectedCity
+      ? favoritesWeather[`${city.name}-${city.lat}-${city.lon}`]
+      : favoritesWeather[`${city.name}-${city.lat}-${city.lon}`];
 
-  const isFavorite = city
-    ? favorites.some((fav) => fav.name === city.name)
-    : false;
+  const isFavorite = favorites.some((fav) => fav.name === city.name);
 
   const toggleFavorite = () => {
-    if (!city) return;
     if (isFavorite) {
       removeFromFavorites(city);
     } else {
@@ -41,29 +32,9 @@ const SelectedWeather = ({
     }
   };
 
-  useEffect(() => {
-    if (!city) return;
-
-    const getWeather = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchCurrentWeather(city.lat, city.lon);
-        setWeather(data);
-      } catch {
-        setError('Не удалось загрузить погоду');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getWeather();
-  }, [city]);
-
-  if (!city) return null;
-  if (loading) return <p>Загрузка погоды...</p>;
-  if (error) return <p>{error}</p>;
-  if (!weather) return null;
+  if (!weather) {
+    return <p>Загрузка погоды для {city.name}...</p>;
+  }
 
   return (
     <div className={style.container}>
