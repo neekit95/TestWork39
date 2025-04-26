@@ -6,12 +6,18 @@ import {
   ForecastResponse,
 } from '@/lib/services/weather-api';
 import styles from './page.module.scss';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const ForecastPage = () => {
   const searchParams = useSearchParams();
-  const lat = searchParams.get('lat');
-  const lon = searchParams.get('lon');
+  const router = useRouter();
+
+  const [lat, setLat] = useState<string | null>(
+    searchParams.get('lat')
+  );
+  const [lon, setLon] = useState<string | null>(
+    searchParams.get('lon')
+  );
 
   const [forecast, setForecast] = useState<ForecastResponse | null>(
     null
@@ -20,12 +26,25 @@ const ForecastPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const savedCity = localStorage.getItem('selectedCity');
+    if (savedCity) {
+      const { lat, lon } = JSON.parse(savedCity);
+      setLat(lat);
+      setLon(lon);
+    }
+  }, []);
+
+  useEffect(() => {
     if (lat && lon) {
       const loadForecast = async () => {
         setLoading(true);
         try {
           const data = await fetchWeeklyForecast(lat, lon);
           setForecast(data);
+          localStorage.setItem(
+            'selectedCity',
+            JSON.stringify({ lat, lon })
+          );
         } catch (err) {
           setError('Ошибка при загрузке прогноза');
           console.error('Ошибка загрузки прогноза:', err);
@@ -36,6 +55,11 @@ const ForecastPage = () => {
       loadForecast();
     }
   }, [lat, lon]);
+
+  const handleSelectCity = () => {
+    localStorage.removeItem('selectedCity');
+    router.push('/');
+  };
 
   if (loading) return <div>Загрузка прогноза...</div>;
   if (error) return <div>{error}</div>;
@@ -55,9 +79,14 @@ const ForecastPage = () => {
 
   return (
     <div className={styles.container}>
-      {forecast ? (
+      {!forecast ? (
         <div>
-          <h1>Прогноз на неделю</h1>
+          <p>Необходимо выбрать город для прогноза</p>
+          <button onClick={handleSelectCity}>Выбрать город</button>
+        </div>
+      ) : (
+        <div>
+          <h1>{forecast.city.name}</h1>
           {Object.entries(groupByDayOfWeek(forecast.list)).map(
             ([dayName, entries]) => (
               <div key={dayName} className={styles.day}>
@@ -88,8 +117,6 @@ const ForecastPage = () => {
             )
           )}
         </div>
-      ) : (
-        <div>Нет данных для прогноза.</div>
       )}
     </div>
   );

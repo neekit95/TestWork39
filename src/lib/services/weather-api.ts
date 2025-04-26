@@ -20,6 +20,7 @@ export const fetchCitiesByName = async (
         q: name,
         limit: 5,
         appid: API_KEY,
+        lang: 'ru',
       },
     }
   );
@@ -51,6 +52,14 @@ export const fetchCurrentWeather = async (
   return response.data;
 };
 
+export interface ForecastResponse {
+  city: {
+    name: string;
+    country: string;
+  };
+  list: ForecastListItem[];
+}
+
 export interface ForecastListItem {
   dt: number;
   main: {
@@ -62,10 +71,6 @@ export interface ForecastListItem {
     description: string;
     icon: string;
   }[];
-}
-
-export interface ForecastResponse {
-  list: ForecastListItem[];
 }
 
 export const fetchWeeklyForecast = async (
